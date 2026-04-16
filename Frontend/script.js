@@ -104,75 +104,96 @@ function logout() {
 }
 
 // ================= NOTES =================
+// function uploadNote() {
+//   if (!file.files[0]) {
+//     showToast("Select a file ❌");
+//     return;
+//   }
+
+//   if (!file.files[0].name.endsWith(".pdf")) {
+//     showToast("Only PDF allowed ❌");
+//     return;
+//   }
+
+//   if (!title.value) {
+//     showToast("Enter title ❌");
+//     return;
+//   }
+
+//   const formData = new FormData();
+//   formData.append("title", title.value);
+//   formData.append("file", file.files[0]);
+
+//   fetch(`${API}/notes/upload`, {
+//     method: "POST",
+//     headers: {
+//       "Authorization": "Bearer " + localStorage.getItem("token")
+//     },
+//     body: formData
+//   })
+//   .then(res => res.text())
+//   .then(msg => showToast(msg))
+//   .catch(() => showToast("Upload failed ❌"));
+// }
+
+// function getNotes() {
+//   fetch(`${API}/notes`, {
+//     headers: {
+//       "Authorization": "Bearer " + localStorage.getItem("token")
+//     }
+//   })
+//   .then(res => res.json())
+//   .then(data => {
+//     const list = document.getElementById("notesList");
+//     if (!list) return;
+
+//     list.innerHTML = "";
+
+//     if (data.length === 0) {
+//       list.innerHTML = "😢 No notes available";
+//       return;
+//     }
+
+//     data.forEach(n => {
+//       list.innerHTML += `
+//         <div class="note">
+          
+//           <div class="note-left">
+//             <h3>${n.title || "Untitled 📄"}</h3>
+//             <p>👤 ${n.name || "Unknown User"}</p>
+//           </div>
+
+//           <div class="note-buttons">
+//             <button onclick="previewPDF('${n.file_path}')">👁️ View</button>
+//             <button onclick="deleteNote(${n.id})">🗑️ Delete</button>
+//           </div>
+
+//         </div>
+//       `;
+//     });
+//   })
+//   .catch(() => showToast("Failed to load notes ❌"));
+// }
 function uploadNote() {
-  if (!file.files[0]) {
-    showToast("Select a file ❌");
-    return;
-  }
-
-  if (!file.files[0].name.endsWith(".pdf")) {
-    showToast("Only PDF allowed ❌");
-    return;
-  }
-
-  if (!title.value) {
-    showToast("Enter title ❌");
-    return;
-  }
+  const fileInput = document.getElementById("file");
+  const title = document.getElementById("title").value;
 
   const formData = new FormData();
-  formData.append("title", title.value);
-  formData.append("file", file.files[0]);
+  formData.append("file", fileInput.files[0]);
+  formData.append("title", title);
 
-  fetch(`${API}/notes/upload`, {
+  const token = localStorage.getItem("token");
+
+  fetch("https://smart-backend-r7bm.onrender.com/api/notes/upload", {
     method: "POST",
     headers: {
-      "Authorization": "Bearer " + localStorage.getItem("token")
+      "Authorization": "Bearer " + token
     },
     body: formData
   })
   .then(res => res.text())
-  .then(msg => showToast(msg))
-  .catch(() => showToast("Upload failed ❌"));
-}
-
-function getNotes() {
-  fetch(`${API}/notes`, {
-    headers: {
-      "Authorization": "Bearer " + localStorage.getItem("token")
-    }
-  })
-  .then(res => res.json())
-  .then(data => {
-    const list = document.getElementById("notesList");
-    if (!list) return;
-
-    list.innerHTML = "";
-
-    if (data.length === 0) {
-      list.innerHTML = "😢 No notes available";
-      return;
-    }
-
-    data.forEach(n => {
-      list.innerHTML += `
-        <div class="note">
-          
-          <div class="note-left">
-            <h3>${n.title || "Untitled 📄"}</h3>
-            <p>👤 ${n.name || "Unknown User"}</p>
-          </div>
-
-          <div class="note-buttons">
-            <button onclick="previewPDF('${n.file_path}')">👁️ View</button>
-            <button onclick="deleteNote(${n.id})">🗑️ Delete</button>
-          </div>
-
-        </div>
-      `;
-    });
-  })
-  .catch(() => showToast("Failed to load notes ❌"));
+  .then(data => alert(data))
+  .catch(err => console.log(err));
 }
 
 // 🔥 PDF PREVIEW
@@ -181,21 +202,33 @@ function previewPDF(file) {
 }
 
 // 🔥 DELETE NOTE
-function deleteNote(id) {
-  if (!confirm("Delete this note? ❗")) return;
+// function deleteNote(id) {
+//   if (!confirm("Delete this note? ❗")) return;
 
-  fetch(`${API}/notes/${id}`, {
+//   fetch(`${API}/notes/${id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Authorization": "Bearer " + localStorage.getItem("token")
+//     }
+//   })
+//   .then(res => res.text())
+//   .then(msg => {
+//     showToast(msg);
+//     getNotes();
+//   })
+//   .catch(() => showToast("Delete failed ❌"));
+// }
+function deleteNote(id) {
+  const token = localStorage.getItem("token");
+
+  fetch(`https://smart-backend-r7bm.onrender.com/api/notes/delete/${id}`, {
     method: "DELETE",
     headers: {
-      "Authorization": "Bearer " + localStorage.getItem("token")
+      "Authorization": "Bearer " + token
     }
   })
   .then(res => res.text())
-  .then(msg => {
-    showToast(msg);
-    getNotes();
-  })
-  .catch(() => showToast("Delete failed ❌"));
+  .then(data => alert(data));
 }
 
 // ================= DOUBTS =================
