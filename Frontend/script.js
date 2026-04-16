@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api";
+const API = "https://smart-backend-r7bm.onrender.com/api";
 
 // ================= 🌙 DARK MODE =================
 function toggleMode() {
@@ -51,9 +51,33 @@ function signup() {
   .catch(() => showToast("Signup failed ❌"));
 }
 
-function login() {
-  showToast("Logging in...");
+// function login() {
+//   showToast("Logging in...");
 
+//   fetch(`${API}/auth/login`, {
+//     method: "POST",
+//     headers: {"Content-Type": "application/json"},
+//     body: JSON.stringify({
+//       email: email.value,
+//       password: password.value
+//     })
+//   })
+//   .then(res => res.json())
+//   .then(data => {
+//     if (data.token) {
+//       localStorage.setItem("token", data.token);
+//       showToast("Login Success ✅");
+
+//       setTimeout(() => {
+//         window.location = "dashboard.html";
+//       }, 1000);
+//     } else {
+//       showToast("Invalid credentials ❌");
+//     }
+//   })
+//   .catch(() => showToast("Server error ❌"));
+// }
+function login() {
   fetch(`${API}/auth/login`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
@@ -66,16 +90,12 @@ function login() {
   .then(data => {
     if (data.token) {
       localStorage.setItem("token", data.token);
-      showToast("Login Success ✅");
-
-      setTimeout(() => {
-        window.location = "dashboard.html";
-      }, 1000);
+      window.location = "dashboard.html";
     } else {
-      showToast("Invalid credentials ❌");
+      alert("Login failed");
     }
   })
-  .catch(() => showToast("Server error ❌"));
+  .catch(() => alert("Server error ❌"));
 }
 
 function logout() {

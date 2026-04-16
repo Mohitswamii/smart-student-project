@@ -5,42 +5,49 @@ const jwt = require("jsonwebtoken");
 // SIGNUP
 // const signup = async (req, res) => {
 //   const { name, email, password } = req.body;
-
-//   const hash = await bcrypt.hash(password, 10);
 const signup = (req, res) => {
   res.send("Signup successful (demo) ✅");
 };
 
-  db.query(
-    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-    [name, email, hash],
-    (err) => {
-      if (err) return res.send("Error ❌");
-      res.send("Signup successful ✅");
-    }
-  );
-};
+//   const hash = await bcrypt.hash(password, 10);
+// const signup = (req, res) => {
+//   res.send("Signup successful (demo) ✅");
+// };
+
+
+//   db.query(
+//     "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+//     [name, email, hash],
+//     (err) => {
+//       if (err) return res.send("Error ❌");
+//       res.send("Signup successful ✅");
+//     }
+//   );
+// };
 
 // LOGIN
 // const login = (req, res) => {
 //   const { email, password } = req.body;
+// const login = (req, res) => {
+//   res.json({ token: "demo-token" });
+// };
 const login = (req, res) => {
   res.json({ token: "demo-token" });
 };
 
-  db.query("SELECT * FROM users WHERE email=?", [email], async (err, result) => {
-    if (result.length === 0) return res.send("User not found ❌");
+//   db.query("SELECT * FROM users WHERE email=?", [email], async (err, result) => {
+//     if (result.length === 0) return res.send("User not found ❌");
 
-    const user = result[0];
-    const match = await bcrypt.compare(password, user.password);
+//     const user = result[0];
+//     const match = await bcrypt.compare(password, user.password);
 
-    if (!match) return res.send("Wrong password ❌");
+//     if (!match) return res.send("Wrong password ❌");
 
-    const token = jwt.sign({ id: user.id }, "secretkey");
+//     const token = jwt.sign({ id: user.id }, "secretkey");
 
-    res.json({ token });
-  });
-};
+//     res.json({ token });
+//   });
+// };
 
 // 🔥 UPDATE PASSWORD
 const updatePassword = async (req, res) => {
