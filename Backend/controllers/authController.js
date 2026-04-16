@@ -44,7 +44,7 @@ const signup = async (req, res) => {
 // };
 
 // LOGIN
-const db = require("../config/db");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
