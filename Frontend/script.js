@@ -254,6 +254,7 @@ function loadNotes() {
 
     data.forEach(note => {
       const div = document.createElement("div");
+      div.className = "note-item";
 
       div.innerHTML = `
         <p>${note.title}</p>
@@ -517,42 +518,56 @@ function changeEmail() {
   .catch(() => showToast("Error ❌"));
 }
 
-// ⭐ STAR ANIMATION
+// ⭐ CONNECTING STARS
 const canvas = document.getElementById("bgCanvas");
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let stars = [];
+let particles = [];
 
-for (let i = 0; i < 100; i++) {
-  stars.push({
+for (let i = 0; i < 80; i++) {
+  particles.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    radius: Math.random() * 2,
-    dx: Math.random() * 0.5,
-    dy: Math.random() * 0.5
+    dx: Math.random() * 1,
+    dy: Math.random() * 1
   });
 }
 
-function animateStars() {
+function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  stars.forEach(star => {
-    star.x += star.dx;
-    star.y += star.dy;
+  for (let i = 0; i < particles.length; i++) {
+    let p = particles[i];
 
-    if (star.x > canvas.width) star.x = 0;
-    if (star.y > canvas.height) star.y = 0;
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x > canvas.width || p.x < 0) p.dx *= -1;
+    if (p.y > canvas.height || p.y < 0) p.dy *= -1;
 
     ctx.beginPath();
-    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
     ctx.fillStyle = "white";
     ctx.fill();
-  });
 
-  requestAnimationFrame(animateStars);
+    for (let j = i + 1; j < particles.length; j++) {
+      let p2 = particles[j];
+      let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = "rgba(255,255,255,0.2)";
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(animate);
 }
 
-animateStars();
+animate();

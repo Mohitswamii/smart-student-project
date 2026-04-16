@@ -18,6 +18,7 @@ app.use("/api/notes", require("./routes/notesRoutes"));
 app.use("/api/doubts", require("./routes/doubtsRoutes"));
 app.use("/api/comments", require("./routes/commentsRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
+app.use("/uploads", express.static("uploads"));
 
 // ================= TEST ROUTE =================
 app.get("/", (req, res) => {

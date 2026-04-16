@@ -405,3 +405,11 @@ body.dark {
   background: #0f172a;
   color: white;
 }
+
+
+.note-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
