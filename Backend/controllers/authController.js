@@ -146,12 +146,46 @@
 
 // // ✅ FINAL EXPORT (MOST IMPORTANT)
 // module.exports = { signup, login, updatePassword, updateEmail };
-const router = require("express").Router();
+const db = require("../config/db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const { signup, login } = require("../controllers/authController");
+// SIGNUP
+const signup = async (req, res) => {
+  const { name, email, password } = req.body;
 
-// ✅ working routes only
-router.post("/signup", signup);
-router.post("/login", login);
+  const hash = await bcrypt.hash(password, 10);
 
-module.exports = router;
+  db.query(
+    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+    [name, email, hash],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.send("Error ❌");
+      }
+      res.send("Signup successful ✅");
+    }
+  );
+};
+
+// LOGIN
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  db.query("SELECT * FROM users WHERE email=?", [email], async (err, result) => {
+    if (result.length === 0) return res.send("User not found ❌");
+
+    const user = result[0];
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) return res.send("Wrong password ❌");
+
+    const token = jwt.sign({ id: user.id }, "secretkey");
+
+    res.json({ token });
+  });
+};
+
+module.exports = { signup, login };
