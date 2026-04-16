@@ -1,0 +1,30 @@
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// 🔥 FRONTEND SERVE (YAHI ADD KARNA THA)
+app.use(express.static("../Frontend"));
+
+// 🔥 PDF
+app.use("/uploads", express.static("uploads"));
+
+// ================= ROUTES =================
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/notes", require("./routes/notesRoutes"));
+app.use("/api/doubts", require("./routes/doubtsRoutes"));
+app.use("/api/comments", require("./routes/commentsRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
+
+// ================= TEST ROUTE =================
+app.get("/", (req, res) => {
+  res.send("Backend Running 🚀");
+});
+
+// ================= SERVER =================
+app.listen(5000, "0.0.0.0", () => {
+  console.log("Server running on port 5000 🚀");
+});

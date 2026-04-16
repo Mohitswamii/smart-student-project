@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Settings</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">🎓 SmartHub</div>
+
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+
+  <div class="nav-right">
+    <span onclick="toggleMode()">🌙</span>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+<h2>⚙️ Settings</h2>
+
+<h3>Change Password</h3>
+<input id="newPassword" type="password" placeholder="New Password">
+<button onclick="changePassword()">Update Password</button>
+
+<br><br>
+
+<h3>Change Email</h3>
+<input id="newEmail" placeholder="New Email">
+<button onclick="changeEmail()">Update Email</button>
+
+<br><br>
+
+<button onclick="location.href='dashboard.html'">⬅ Back</button>
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

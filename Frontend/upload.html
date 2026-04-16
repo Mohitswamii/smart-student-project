@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Upload</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- 🔐 LOGIN CHECK -->
+<script>
+if (!localStorage.getItem("token")) {
+  window.location = "index.html";
+}
+</script>
+
+<!-- ✅ NAVBAR -->
+<div class="navbar">
+  <div class="logo">🎓 SmartHub</div>
+
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="notes.html">Notes</a>
+    <a href="upload.html">Upload</a>
+    <a href="doubts.html">Doubts</a>
+  </div>
+
+  <div class="nav-right">
+    <span onclick="toggleMode()">🌙</span>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- ✅ MAIN CONTENT (🔥 FIXED LIKE OTHERS) -->
+<div class="container notes-container">
+  <h2>Upload Notes</h2>
+
+  <div class="input-box">
+    <input id="title" required>
+    <label>Title</label>
+  </div>
+
+  <input type="file" id="file">
+
+  <button onclick="uploadNote()">Upload</button>
+</div>
+
+<!-- 🔔 TOAST -->
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

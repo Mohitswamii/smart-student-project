@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Notes</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="getNotes()">
+<canvas id="bgCanvas"></canvas>
+
+<!-- 🔐 LOGIN CHECK -->
+<script>
+if (!localStorage.getItem("token")) {
+  window.location = "index.html";
+}
+</script>
+
+<!-- ✅ NAVBAR -->
+<div class="navbar">
+  <div class="logo">🎓 SMART HUB</div>
+
+  <div class="nav-links">
+    <a href="dashboard.html" style="color: aqua;">Dashboard</a>
+    <a href="notes.html" style="color: aqua;">Notes</a>
+    <a href="upload.html" style="color: aqua;">Upload</a>
+    <a href="doubts.html" style="color: aqua;">Doubts</a>
+  </div>
+
+  <div class="nav-right">
+    <button class="nav-btn" onclick="toggleMode()">🌙</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- ✅ MAIN CONTENT (🔥 FIXED LIKE DASHBOARD) -->
+<div class="container notes-container">
+  <h2>Notes</h2>
+
+  <!-- NOTES LIST -->
+  <div id="notesList"></div>
+
+  <!-- 🔥 PDF VIEWER -->
+  <iframe id="pdfViewer" style="width:100%; height:500px; display:none;"></iframe>
+</div>
+
+<!-- 🔔 TOAST -->
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

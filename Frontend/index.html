@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 🌙 DARK MODE BUTTON -->
+<button class="dark-btn" onclick="toggleMode()">🌙</button>
+  <canvas id="bgCanvas"></canvas>
+
+    <!-- <div class="toggle-btn" onclick="toggleMode()">🌙</div> -->
+
+<!-- 🔐 Already logged-in user redirect -->
+<script>
+if (localStorage.getItem("token")) {
+  window.location = "dashboard.html";
+}
+</script>
+
+
+<!-- 🔥 Animated Heading -->
+<div class="hero">
+  <h1 class="title">
+    <span>🎓</span>
+    <span>&nbsp;</span>
+
+    <span>S</span><span>M</span><span>A</span><span>R</span><span>T</span>
+    <span>&nbsp;</span>
+    <span>S</span><span>T</span><span>U</span><span>D</span><span>E</span><span>N</span><span>T</span>
+    <span>&nbsp;</span>
+    <span>H</span><span>U</span><span>B</span>
+  </h1>
+</div>
+<!-- ✅ LOGIN FORM -->
+<div class="container">
+  <h2>Login</h2>
+
+  <input id="email" placeholder="Enter ID">
+
+  <div style="position: relative;">
+    <input id="password" type="password" placeholder="Enter Password">
+    <span onclick="togglePassword()" style="position:absolute; right:10px; top:12px; cursor:pointer;">
+      👁️
+    </span>
+  </div>
+
+  <button onclick="login()">Login</button>
+
+  <a href="signup.html">Create Account</a>
+</div>
+<!-- 🔔 TOAST -->
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

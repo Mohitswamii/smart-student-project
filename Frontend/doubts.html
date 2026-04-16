@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doubts</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="getDoubts()">
+  <canvas id="bgCanvas"></canvas>
+  
+<!-- 🔐 LOGIN CHECK -->
+<script>
+if (!localStorage.getItem("token")) {
+  window.location = "index.html";
+}
+</script>
+
+<!-- ✅ NAVBAR -->
+<div class="navbar">
+  <div class="logo">🎓 SMART HUB</div>
+
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="notes.html">Notes</a>
+    <a href="upload.html">Upload</a>
+    <a href="doubts.html">Doubts</a>
+  </div>
+
+  <div class="nav-right">
+    <span onclick="toggleMode()">🌙</span>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- ✅ MAIN CONTENT (🔥 FIXED) -->
+<div class="container notes-container">
+  <h2>Doubts</h2>
+
+  <textarea id="question" placeholder="Ask something..."></textarea>
+  <button onclick="postDoubt()">Post</button>
+
+  <div id="doubtList"></div>
+</div>
+
+<!-- 🔔 TOAST -->
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 🔐 LOGIN CHECK -->
+<script>
+if (!localStorage.getItem("token")) {
+  window.location = "index.html";
+}
+</script>
+
+<!-- ⭐ BACKGROUND -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- ✅ NAVBAR -->
+<div class="navbar">
+  <div class="logo">🎓 SMART HUB</div>
+
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="notes.html">Notes</a>
+    <a href="upload.html">Upload</a>
+    <a href="doubts.html">Doubts</a>
+  </div>
+
+  <div class="nav-right">
+    <!-- 🌙 DARK MODE -->
+    <button class="dark-btn" onclick="toggleMode()">🌙</button>
+
+    <!-- ⚙️ SETTINGS -->
+    <div class="settings">
+      <span class="settings-icon" onclick="toggleSettings()">⚙️</span>
+
+      <div id="settingsMenu" class="settings-menu">
+        <a href="settings.html">🔑 Change Password</a>
+        <a href="contact.html">📞 Contact Us</a>
+      </div>
+    </div>
+
+    <!-- 🚪 LOGOUT -->
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- ✅ MAIN CONTENT (🔥 FIXED LIKE NOTES) -->
+<div class="container notes-container">
+  <h2 style="color: purple;">Dashboard</h2>
+
+  <div class="cards">
+    <div class="card" onclick="location.href='upload.html'">
+      📤 Upload Notes
+    </div>
+
+    <div class="card" onclick="location.href='notes.html'">
+      📚 View Notes
+    </div>
+
+    <div class="card" onclick="location.href='doubts.html'">
+      ❓ Doubts
+    </div>
+  </div>
+</div>
+
+<!-- 🔔 TOAST -->
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
