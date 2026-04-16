@@ -3,11 +3,29 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // SIGNUP
+
+const signup = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const hash = await require("bcrypt").hash(password, 10);
+
+  db.query(
+    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+    [name, email, hash],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.send("Error ❌");
+      }
+      res.send("Signup successful ✅");
+    }
+  );
+};
 // const signup = async (req, res) => {
 //   const { name, email, password } = req.body;
-const signup = (req, res) => {
-  res.send("Signup successful (demo) ✅");
-};
+// const signup = (req, res) => {
+//   res.send("Signup successful (demo) ✅");
+// };
 
 //   const hash = await bcrypt.hash(password, 10);
 // const signup = (req, res) => {
@@ -26,14 +44,39 @@ const signup = (req, res) => {
 // };
 
 // LOGIN
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  db.query(
+    "SELECT * FROM users WHERE email=?",
+    [email],
+    async (err, result) => {
+      if (result.length === 0) return res.send("User not found ❌");
+
+      const user = result[0];
+
+      const match = await require("bcrypt").compare(
+        password,
+        user.password
+      );
+
+      if (!match) return res.send("Wrong password ❌");
+
+      const jwt = require("jsonwebtoken");
+      const token = jwt.sign({ id: user.id }, "secretkey");
+
+      res.json({ token });
+    }
+  );
+};
 // const login = (req, res) => {
 //   const { email, password } = req.body;
 // const login = (req, res) => {
 //   res.json({ token: "demo-token" });
 // };
-const login = (req, res) => {
-  res.json({ token: "demo-token" });
-};
+// const login = (req, res) => {
+//   res.json({ token: "demo-token" });
+// };
 
 //   db.query("SELECT * FROM users WHERE email=?", [email], async (err, result) => {
 //     if (result.length === 0) return res.send("User not found ❌");

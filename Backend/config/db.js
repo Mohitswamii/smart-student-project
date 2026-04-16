@@ -20,13 +20,37 @@
 
 
 
-// FAKE DB (for deployment)
+// // FAKE DB (for deployment)
 
-console.log("DB Disabled for now 🚫");
+// console.log("DB Disabled for now 🚫");
 
-module.exports = {
-  query: (sql, values, callback) => {
-    console.log("Query skipped:", sql);
-    callback(null, []);
+// module.exports = {
+//   query: (sql, values, callback) => {
+//     console.log("Query skipped:", sql);
+//     callback(null, []);
+//   }
+// };
+
+
+
+
+
+const mysql = require("mysql2");
+
+const db = mysql.createConnection({
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
+});
+
+db.connect((err) => {
+  if (err) {
+    console.log("DB Error ❌", err);
+  } else {
+    console.log("MySQL Connected ✅");
   }
-};
+});
+
+module.exports = db;
