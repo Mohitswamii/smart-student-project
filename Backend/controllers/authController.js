@@ -44,31 +44,53 @@ const signup = async (req, res) => {
 // };
 
 // LOGIN
+const db = require("../config/db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  db.query(
-    "SELECT * FROM users WHERE email=?",
-    [email],
-    async (err, result) => {
-      if (result.length === 0) return res.send("User not found ❌");
+  db.query("SELECT * FROM users WHERE email=?", [email], async (err, result) => {
+    if (result.length === 0) return res.send("User not found ❌");
 
-      const user = result[0];
+    const user = result[0];
 
-      const match = await require("bcrypt").compare(
-        password,
-        user.password
-      );
+    const match = await bcrypt.compare(password, user.password);
 
-      if (!match) return res.send("Wrong password ❌");
+    if (!match) return res.send("Wrong password ❌");
 
-      const jwt = require("jsonwebtoken");
-      const token = jwt.sign({ id: user.id }, "secretkey");
+    // 🔥 YEH LINE IMPORTANT HAI
+    const token = jwt.sign({ id: user.id }, "secretkey");
 
-      res.json({ token });
-    }
-  );
+    res.json({ token });
+  });
 };
+// const login = (req, res) => {
+//   const { email, password } = req.body;
+
+//   db.query(
+//     "SELECT * FROM users WHERE email=?",
+//     [email],
+//     async (err, result) => {
+//       if (result.length === 0) return res.send("User not found ❌");
+
+//       const user = result[0];
+
+//       const match = await require("bcrypt").compare(
+//         password,
+//         user.password
+//       );
+
+//       if (!match) return res.send("Wrong password ❌");
+
+//       const jwt = require("jsonwebtoken");
+//       const token = jwt.sign({ id: user.id }, "secretkey");
+
+//       res.json({ token });
+//     }
+//   );
+// };
 // const login = (req, res) => {
 //   const { email, password } = req.body;
 // const login = (req, res) => {
