@@ -6,6 +6,8 @@
 </head>
 
 <body onload="getNotes()">
+  
+
 <canvas id="bgCanvas"></canvas>
 
 <!-- 🔐 LOGIN CHECK -->
@@ -18,6 +20,7 @@ if (!localStorage.getItem("token")) {
 <!-- ✅ NAVBAR -->
 <div class="navbar">
   <div class="logo">🎓 SMART HUB</div>
+  
 
   <div class="nav-links">
     <a href="dashboard.html" style="color: aqua;">Dashboard</a>
@@ -43,8 +46,10 @@ if (!localStorage.getItem("token")) {
   <iframe id="pdfViewer" style="width:100%; height:500px; display:none;"></iframe>
 </div>
 
+
 <!-- 🔔 TOAST -->
 <div id="toast"></div>
+
 
 <script src="script.js"></script>
 </body>

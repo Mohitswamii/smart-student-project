@@ -235,6 +235,36 @@ function deleteNote(id) {
   .then(data => alert(data));
 }
 
+function loadNotes() {
+  const token = localStorage.getItem("token");
+
+  fetch("https://smart-backend-r7bm.onrender.com/api/notes", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data); // 🔥 DEBUG
+
+    const container = document.getElementById("notesContainer");
+    container.innerHTML = "";
+
+    data.forEach(note => {
+      const div = document.createElement("div");
+
+      div.innerHTML = `
+        <p>${note.title}</p>
+        <a href="https://smart-backend-r7bm.onrender.com/uploads/${note.file}" target="_blank">View</a>
+        <button onclick="deleteNote(${note.id})">Delete</button>
+      `;
+
+      container.appendChild(div);
+    });
+  })
+  .catch(err => console.log(err));
+}
+
 // ================= DOUBTS =================
 function postDoubt() {
   if (!question.value.trim()) {
