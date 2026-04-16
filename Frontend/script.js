@@ -249,7 +249,7 @@ function loadNotes() {
   .then(data => {
     console.log(data); // 🔥 DEBUG
 
-    const container = document.getElementById("notesContainer");
+    const container = document.getElementById("notesList");
     container.innerHTML = "";
 
     data.forEach(note => {
@@ -516,3 +516,43 @@ function changeEmail() {
   })
   .catch(() => showToast("Error ❌"));
 }
+
+// ⭐ STAR ANIMATION
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 100; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 2,
+    dx: Math.random() * 0.5,
+    dy: Math.random() * 0.5
+  });
+}
+
+function animateStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  stars.forEach(star => {
+    star.x += star.dx;
+    star.y += star.dy;
+
+    if (star.x > canvas.width) star.x = 0;
+    if (star.y > canvas.height) star.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateStars);
+}
+
+animateStars();
