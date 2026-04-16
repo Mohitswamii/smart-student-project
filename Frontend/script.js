@@ -78,24 +78,27 @@ function signup() {
 //   .catch(() => showToast("Server error ❌"));
 // }
 function login() {
-  fetch(`${API}/auth/login`, {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch("https://smart-backend-r7bm.onrender.com/api/auth/login", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value
-    })
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
   })
   .then(res => res.json())
   .then(data => {
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      window.location = "dashboard.html";
-    } else {
-      alert("Login failed");
-    }
+    console.log(data); // DEBUG
+
+    // 🔥 IMPORTANT LINE
+    localStorage.setItem("token", data.token);
+
+    alert("Login successful ✅");
+    window.location = "dashboard.html";
   })
-  .catch(() => alert("Server error ❌"));
+  .catch(err => console.log(err));
 }
 
 function logout() {
@@ -175,6 +178,7 @@ function logout() {
 //   .catch(() => showToast("Failed to load notes ❌"));
 // }
 function uploadNote() {
+  
   const fileInput = document.getElementById("file");
   const title = document.getElementById("title").value;
 
