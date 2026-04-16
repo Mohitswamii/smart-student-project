@@ -90,13 +90,15 @@ function login() {
   })
   .then(res => res.json())
   .then(data => {
-    console.log(data); // DEBUG
+    console.log("LOGIN RESPONSE:", data);
 
-    // 🔥 IMPORTANT LINE
-    localStorage.setItem("token", data.token);
-
-    alert("Login successful ✅");
-    window.location = "dashboard.html";
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      alert("Login successful ✅");
+      window.location = "dashboard.html";
+    } else {
+      alert("Invalid credentials ❌");
+    }
   })
   .catch(err => console.log(err));
 }
@@ -202,7 +204,7 @@ function uploadNote() {
 
 // 🔥 PDF PREVIEW
 function previewPDF(file) {
- window.open(`http://localhost:5000/uploads/${file}`, "_blank");
+  window.open(`https://smart-backend-r7bm.onrender.com/uploads/${file}`, "_blank");
 }
 
 // 🔥 DELETE NOTE
