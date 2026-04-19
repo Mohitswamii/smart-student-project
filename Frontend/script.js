@@ -203,8 +203,11 @@ function uploadNote() {
 }
 
 // 🔥 PDF PREVIEW
+// function previewPDF(file) {
+//   window.open(`https://smart-backend-r7bm.onrender.com/uploads/${file}`, "_blank");
+// }
 function previewPDF(file) {
-  window.open(`https://smart-backend-r7bm.onrender.com/uploads/${file}`, "_blank");
+  window.open(file, "_blank");
 }
 
 // 🔥 DELETE NOTE
@@ -258,7 +261,7 @@ function loadNotes() {
 
       div.innerHTML = `
         <p>${note.title}</p>
-        <a href="https://smart-backend-r7bm.onrender.com/uploads/${note.file}" target="_blank">View</a>
+        <a href="${note.file}" target="_blank">View</a>
         <button onclick="deleteNote(${note.id})">Delete</button>
       `;
 

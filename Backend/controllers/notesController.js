@@ -53,27 +53,58 @@
 const db = require("../config/db");
 
 // 📌 Upload Note
+// const uploadNote = (req, res) => {
+//   try {
+//     const file = req.file;
+//     const { title } = req.body;
+
+//     if (!file) {
+//       return res.status(400).send("No file uploaded ❌");
+//     }
+
+//     const fileUrl = req.file.path;
+
+//     const sql = "INSERT INTO notes (title, file) VALUES (?, ?)";
+
+//     db.query(sql, [title, filename], (err, result) => {
+//       if (err) {
+//         console.log(err);
+//         return res.status(500).send("Upload failed ❌");
+//       }
+
+//       res.send("Note uploaded successfully ✅");
+//     });
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("Server error ❌");
+//   }
+// };
 const uploadNote = (req, res) => {
   try {
-    const file = req.file;
     const { title } = req.body;
 
-    if (!file) {
+    // 🔥 FILE CHECK
+    if (!req.file) {
       return res.status(400).send("No file uploaded ❌");
     }
 
-    const filename = file.filename;
+    // 🔥 CLOUDINARY URL
+    const fileUrl = req.file.path;
 
-    const sql = "INSERT INTO notes (title, file) VALUES (?, ?)";
+    // 🔥 DATABASE SAVE
+    db.query(
+      "INSERT INTO notes (title, file) VALUES (?, ?)",
+      [title, fileUrl],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send("Upload failed ❌");
+        }
 
-    db.query(sql, [title, filename], (err, result) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send("Upload failed ❌");
+        res.send("Note uploaded successfully ✅");
       }
-
-      res.send("Note uploaded successfully ✅");
-    });
+    );
 
   } catch (error) {
     console.log(error);
