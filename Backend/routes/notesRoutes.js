@@ -74,7 +74,7 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     return {
       folder: "notes",
-      resource_type: "auto", // ✅ important for PDF
+      resource_type: "raw", // ✅ important for PDF
       public_id: Date.now() + "-" + file.originalname
     };
   }
