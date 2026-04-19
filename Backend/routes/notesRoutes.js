@@ -58,31 +58,49 @@
 
 // module.exports = router;
 
+// const express = require("express");
+// const router = express.Router();
+
+// const multer = require("multer");
+// const { CloudinaryStorage } = require("multer-storage-cloudinary");
+// const cloudinary = require("../config/cloudinary");
+
+// const auth = require("../middleware/authMiddleware");
+// const notesController = require("../controllers/notesController");
+
+// // 🔥 Cloudinary storage (PDF support)
+// const storage = new CloudinaryStorage({
+//   cloudinary: cloudinary,
+//   params: async (req, file) => {
+//     return {
+//       folder: "notes",
+//       resource_type: "raw", // ✅ important for PDF
+//       public_id: Date.now() + "-" + file.originalname
+//     };
+//   }
+// });
+
+// const upload = multer({ storage });
+
+// // ✅ ROUTES (same as tera)
+// router.post("/upload", auth, upload.single("file"), notesController.uploadNote);
+// router.get("/", auth, notesController.getNotes);
+// router.delete("/delete/:id", auth, notesController.deleteNote);
+
+// module.exports = router;
+
 const express = require("express");
 const router = express.Router();
 
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("../config/cloudinary");
 
 const auth = require("../middleware/authMiddleware");
 const notesController = require("../controllers/notesController");
 
-// 🔥 Cloudinary storage (PDF support)
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: async (req, file) => {
-    return {
-      folder: "notes",
-      resource_type: "raw", // ✅ important for PDF
-      public_id: Date.now() + "-" + file.originalname
-    };
-  }
-});
+// 🔥 SIMPLE MULTER (local temp storage)
+const upload = multer({ dest: "uploads/" });
 
-const upload = multer({ storage });
-
-// ✅ ROUTES (same as tera)
+// ✅ ROUTES
 router.post("/upload", auth, upload.single("file"), notesController.uploadNote);
 router.get("/", auth, notesController.getNotes);
 router.delete("/delete/:id", auth, notesController.deleteNote);
