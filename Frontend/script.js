@@ -259,7 +259,7 @@ function loadNotes() {
       div.innerHTML = `
         <p>${note.title}</p>
 
-      <a href="https://smart-backend-r7bm.onrender.com/uploads/${note.file}" target="_blank">View</a>
+        <a href="https://smart-backend-r7bm.onrender.com/uploads/${note.file}" target="_blank">
           View
         </a>
 
@@ -270,32 +270,6 @@ function loadNotes() {
     });
   })
   .catch(err => console.log(err));
-}
-
-// ================= DOUBTS =================
-function postDoubt() {
-  if (!question.value.trim()) {
-    showToast("Enter a doubt ❌");
-    return;
-  }
-
-  fetch(`${API}/doubts`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("token")
-    },
-    body: JSON.stringify({
-      question: question.value
-    })
-  })
-  .then(res => res.text())
-  .then(msg => {
-    showToast(msg);
-    question.value = "";
-    getDoubts();
-  })
-  .catch(() => showToast("Failed ❌"));
 }
 
 function getDoubts() {

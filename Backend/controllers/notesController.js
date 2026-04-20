@@ -1,6 +1,6 @@
-const db = require("../config/db");
-const cloudinary = require("../config/cloudinary");
-const fs = require("fs");
+// const db = require("../config/db");
+// const cloudinary = require("../config/cloudinary");
+// const fs = require("fs");
 
 // 📌 Upload Note
 // const uploadNote = async (req, res) => {
@@ -40,62 +40,112 @@ const fs = require("fs");
 //     res.status(500).send("Server error ❌");
 //   }
 // };
+// const uploadNote = (req, res) => {
+//   try {
+//     const { title } = req.body;
+
+//     if (!req.file) {
+//       return res.status(400).send("No file uploaded ❌");
+//     }
+
+//     const filePath = req.file.filename;
+
+//     db.query(
+//       "INSERT INTO notes (title, file) VALUES (?, ?)",
+//       [title, filePath],
+//       (err) => {
+//         if (err) {
+//           console.log(err);
+//           return res.status(500).send("Upload failed ❌");
+//         }
+
+//         res.send("Note uploaded successfully ✅");
+//       }
+//     );
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("Server error ❌");
+//   }
+// };
+
+// // 📌 Get Notes
+// const getNotes = (req, res) => {
+//   db.query("SELECT * FROM notes", (err, result) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(500).send("Error ❌");
+//     }
+//     res.json(result);
+//   });
+// };
+
+// // 📌 Delete Note
+// const deleteNote = (req, res) => {
+//   const id = req.params.id;
+
+//   db.query("DELETE FROM notes WHERE id = ?", [id], (err) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(500).send("Delete failed ❌");
+//     }
+//     res.send("Note deleted ✅");
+//   });
+// };
+
+// // ✅ EXPORT
+// module.exports = {
+//   uploadNote,
+//   getNotes,
+//   deleteNote
+// };
+
+
+
+
+
+const db = require("../config/db");
+
+// 📌 Upload
 const uploadNote = (req, res) => {
   try {
     const { title } = req.body;
 
     if (!req.file) {
-      return res.status(400).send("No file uploaded ❌");
+      return res.send("No file ❌");
     }
 
-    const filePath = req.file.filename;
+    const fileName = req.file.filename;
 
     db.query(
       "INSERT INTO notes (title, file) VALUES (?, ?)",
-      [title, filePath],
+      [title, fileName],
       (err) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).send("Upload failed ❌");
-        }
-
-        res.send("Note uploaded successfully ✅");
+        if (err) return res.send("Error ❌");
+        res.send("Uploaded ✅");
       }
     );
-
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Server error ❌");
+  } catch {
+    res.send("Server error ❌");
   }
 };
 
-// 📌 Get Notes
+// 📌 Get
 const getNotes = (req, res) => {
   db.query("SELECT * FROM notes", (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send("Error ❌");
-    }
+    if (err) return res.send("Error ❌");
     res.json(result);
   });
 };
 
-// 📌 Delete Note
+// 📌 Delete
 const deleteNote = (req, res) => {
   const id = req.params.id;
 
-  db.query("DELETE FROM notes WHERE id = ?", [id], (err) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send("Delete failed ❌");
-    }
-    res.send("Note deleted ✅");
+  db.query("DELETE FROM notes WHERE id=?", [id], (err) => {
+    if (err) return res.send("Error ❌");
+    res.send("Deleted ✅");
   });
 };
 
-// ✅ EXPORT
-module.exports = {
-  uploadNote,
-  getNotes,
-  deleteNote
-};
+module.exports = { uploadNote, getNotes, deleteNote };

@@ -89,19 +89,46 @@
 
 // module.exports = router;
 
+// const express = require("express");
+// const router = express.Router();
+
+// const multer = require("multer");
+
+// const auth = require("../middleware/authMiddleware");
+// const notesController = require("../controllers/notesController");
+
+
+// // 🔥 SIMPLE MULTER (local temp storage)
+// const upload = multer({ dest: "uploads/" });
+
+// // ✅ ROUTES
+// router.post("/upload", auth, upload.single("file"), notesController.uploadNote);
+// router.get("/", auth, notesController.getNotes);
+// router.delete("/delete/:id", auth, notesController.deleteNote);
+
+// module.exports = router;
+
+
+
 const express = require("express");
 const router = express.Router();
-
 const multer = require("multer");
 
 const auth = require("../middleware/authMiddleware");
 const notesController = require("../controllers/notesController");
 
+// 🔥 LOCAL STORAGE
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    const cleanName = file.originalname.replace(/\s+/g, "_");
+    cb(null, Date.now() + "-" + cleanName);
+  }
+});
 
-// 🔥 SIMPLE MULTER (local temp storage)
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage });
 
-// ✅ ROUTES
+// ROUTES
 router.post("/upload", auth, upload.single("file"), notesController.uploadNote);
 router.get("/", auth, notesController.getNotes);
 router.delete("/delete/:id", auth, notesController.deleteNote);
