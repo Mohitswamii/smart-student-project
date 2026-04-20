@@ -12,11 +12,10 @@ const uploadNote = async (req, res) => {
     }
 
     // 🔥 upload to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      resource_type: "raw",
-      folder: "notes"
-    });
-
+   const result = await cloudinary.uploader.upload(req.file.path, {
+  resource_type: "auto",   // 🔥 CHANGE THIS
+  folder: "notes"
+});
     // 🔥 delete temp file
     fs.unlinkSync(req.file.path);
 
