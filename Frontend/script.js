@@ -259,7 +259,7 @@ function loadNotes() {
       div.innerHTML = `
         <p>${note.title}</p>
 
-        <a href="https://smart-backend-r7bm.onrender.com/view-pdf?url=${encodeURIComponent(note.file)}" target="_blank">
+       <a href="#" onclick="previewFile('${note.file}')">View</a>
           View
         </a>
 
@@ -575,3 +575,18 @@ function animate() {
 }
 
 animate();
+
+
+
+
+
+function previewFile(file) {
+  const viewer = document.getElementById("pdfViewer");
+
+  // cache-bust ताकि refresh में issue न आए
+  const url = file + (file.includes("?") ? "&" : "?") + "v=" + Date.now();
+
+  viewer.src = url;
+  viewer.style.display = "block";
+  viewer.scrollIntoView({ behavior: "smooth" });
+}
