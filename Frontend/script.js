@@ -207,8 +207,9 @@ function uploadNote() {
 //   window.open(`https://smart-backend-r7bm.onrender.com/uploads/${file}`, "_blank");
 // }
 function previewPDF(file) {
-  // window.open(file, "_blank");
-  window.open(file.replace("/upload/", "/upload/fl_attachment:false/"), "_blank");
+  const viewer = document.getElementById("pdfViewer");
+  viewer.src = file;
+  viewer.style.display = "block";
 }
 
 // 🔥 DELETE NOTE
