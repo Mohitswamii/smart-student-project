@@ -34,16 +34,23 @@ app.listen(PORT, () => {
 });
 
 
-app.get("/view-pdf", async (req, res) => {
+const https = require("https");
+
+app.get("/view-pdf", (req, res) => {
   const url = req.query.url;
 
-  try {
-    const response = await fetch(url);
-    const buffer = await response.arrayBuffer();
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.send(Buffer.from(buffer));
-  } catch (err) {
-    res.status(500).send("Error loading PDF");
+  if (!url) {
+    return res.status(400).send("No URL provided ❌");
   }
+
+  https.get(url, (response) => {
+    // 🔥 important headers
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "inline"); // 👈 ye open karega browser me
+
+    response.pipe(res); // 🔥 direct stream
+  }).on("error", (err) => {
+    console.log("PDF ERROR 👉", err);
+    res.status(500).send("Error loading PDF");
+  });
 });
