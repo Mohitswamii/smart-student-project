@@ -3,7 +3,44 @@ const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 
 // 📌 Upload Note
-const uploadNote = async (req, res) => {
+// const uploadNote = async (req, res) => {
+//   try {
+//     const { title } = req.body;
+
+//     if (!req.file) {
+//       return res.status(400).send("No file uploaded ❌");
+//     }
+
+//     // 🔥 upload to cloudinary
+//    const result = await cloudinary.uploader.upload(req.file.path, {
+//  resource_type: "raw", // 🔥 CHANGE THIS
+//   folder: "notes"
+// });
+//     // 🔥 delete temp file
+//     fs.unlinkSync(req.file.path);
+
+//     const fileUrl = result.secure_url;
+
+//     // 🔥 save in DB
+//     db.query(
+//       "INSERT INTO notes (title, file) VALUES (?, ?)",
+//       [title, fileUrl],
+//       (err) => {
+//         if (err) {
+//           console.log(err);
+//           return res.status(500).send("Upload failed ❌");
+//         }
+
+//         res.send("Note uploaded successfully ✅");
+//       }
+//     );
+
+//   } catch (error) {
+//     console.log("ERROR 👉", error);
+//     res.status(500).send("Server error ❌");
+//   }
+// };
+const uploadNote = (req, res) => {
   try {
     const { title } = req.body;
 
@@ -11,20 +48,11 @@ const uploadNote = async (req, res) => {
       return res.status(400).send("No file uploaded ❌");
     }
 
-    // 🔥 upload to cloudinary
-   const result = await cloudinary.uploader.upload(req.file.path, {
- resource_type: "raw", // 🔥 CHANGE THIS
-  folder: "notes"
-});
-    // 🔥 delete temp file
-    fs.unlinkSync(req.file.path);
+    const filePath = req.file.filename;
 
-    const fileUrl = result.secure_url;
-
-    // 🔥 save in DB
     db.query(
       "INSERT INTO notes (title, file) VALUES (?, ?)",
-      [title, fileUrl],
+      [title, filePath],
       (err) => {
         if (err) {
           console.log(err);
@@ -36,7 +64,7 @@ const uploadNote = async (req, res) => {
     );
 
   } catch (error) {
-    console.log("ERROR 👉", error);
+    console.log(error);
     res.status(500).send("Server error ❌");
   }
 };

@@ -259,7 +259,7 @@ function loadNotes() {
       div.innerHTML = `
         <p>${note.title}</p>
 
-       <a href="#" onclick="previewFile('${note.file}')">View</a>
+      <a href="https://smart-backend-r7bm.onrender.com/uploads/${note.file}" target="_blank">View</a>
           View
         </a>
 
