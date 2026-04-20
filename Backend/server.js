@@ -34,6 +34,10 @@ app.listen(PORT, () => {
 });
 
 
+
+
+
+
 const https = require("https");
 
 app.get("/view-pdf", (req, res) => {
@@ -44,13 +48,17 @@ app.get("/view-pdf", (req, res) => {
   }
 
   https.get(url, (response) => {
-    // 🔥 important headers
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "inline"); // 👈 ye open karega browser me
 
-    response.pipe(res); // 🔥 direct stream
+    // 🔥 ORIGINAL CONTENT TYPE USE KAR
+    res.setHeader("Content-Type", response.headers["content-type"]);
+
+    // 🔥 inline open (download nahi)
+    res.setHeader("Content-Disposition", "inline");
+
+    response.pipe(res);
+
   }).on("error", (err) => {
-    console.log("PDF ERROR 👉", err);
-    res.status(500).send("Error loading PDF");
+    console.log("ERROR 👉", err);
+    res.status(500).send("Error loading file");
   });
 });
