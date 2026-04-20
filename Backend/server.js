@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const fetch = require("node-fetch");
 
 const app = express();
 
@@ -30,4 +31,19 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 🚀`);
+});
+
+
+app.get("/view-pdf", async (req, res) => {
+  const url = req.query.url;
+
+  try {
+    const response = await fetch(url);
+    const buffer = await response.arrayBuffer();
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    res.status(500).send("Error loading PDF");
+  }
 });

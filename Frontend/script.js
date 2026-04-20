@@ -207,10 +207,7 @@ function uploadNote() {
 //   window.open(`https://smart-backend-r7bm.onrender.com/uploads/${file}`, "_blank");
 // }
 function previewPDF(file) {
-  const viewer = document.getElementById("pdfViewer");
-  viewer.src = file;        // Cloudinary URL
-  viewer.style.display = "block";
-  viewer.scrollIntoView({ behavior: "smooth" });
+  window.open(`https://smart-backend-r7bm.onrender.com/view-pdf?url=${encodeURIComponent(file)}`, "_blank");
 }
 // 🔥 DELETE NOTE
 // function deleteNote(id) {
@@ -252,8 +249,6 @@ function loadNotes() {
   })
   .then(res => res.json())
   .then(data => {
-    console.log(data); // 🔥 DEBUG
-
     const container = document.getElementById("notesList");
     container.innerHTML = "";
 
@@ -263,7 +258,11 @@ function loadNotes() {
 
       div.innerHTML = `
         <p>${note.title}</p>
-       <a href="#" onclick="previewPDF('${note.file}')">View</a>
+
+        <a href="https://smart-backend-r7bm.onrender.com/view-pdf?url=${encodeURIComponent(note.file)}" target="_blank">
+          View
+        </a>
+
         <button onclick="deleteNote(${note.id})">Delete</button>
       `;
 
