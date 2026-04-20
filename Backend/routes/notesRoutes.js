@@ -97,6 +97,7 @@ const multer = require("multer");
 const auth = require("../middleware/authMiddleware");
 const notesController = require("../controllers/notesController");
 
+
 // 🔥 SIMPLE MULTER (local temp storage)
 const upload = multer({ dest: "uploads/" });
 
