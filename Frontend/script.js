@@ -208,10 +208,10 @@ function uploadNote() {
 // }
 function previewPDF(file) {
   const viewer = document.getElementById("pdfViewer");
-  viewer.src = file;
+  viewer.src = file;        // Cloudinary URL
   viewer.style.display = "block";
+  viewer.scrollIntoView({ behavior: "smooth" });
 }
-
 // 🔥 DELETE NOTE
 // function deleteNote(id) {
 //   if (!confirm("Delete this note? ❗")) return;
@@ -263,7 +263,7 @@ function loadNotes() {
 
       div.innerHTML = `
         <p>${note.title}</p>
-        <a href="${note.file}" target="_blank">View</a>
+       <a href="#" onclick="previewPDF('${note.file}')">View</a>
         <button onclick="deleteNote(${note.id})">Delete</button>
       `;
 
